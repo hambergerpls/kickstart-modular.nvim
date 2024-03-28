@@ -185,9 +185,17 @@ return {
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        ts_ls = {
+          on_attach = function(client)
+            -- this is important, otherwise tsserver will format ts/js
+            -- files which we *really* don't want.
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        },
+        biome = {
+          cmd = { "biome", "lsp-proxy" },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -211,7 +219,10 @@ return {
       --    :Mason
       --
       --  You can press `g?` for help in this menu.
-      require('mason').setup()
+      require('mason').setup({
+        PATH = "append"
+      })
+
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
