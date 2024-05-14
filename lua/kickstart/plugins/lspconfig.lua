@@ -196,7 +196,16 @@ return {
         biome = {
           cmd = { "biome", "lsp-proxy" },
         },
-
+        nil_ls = {
+          autostart = true,
+          settings = {
+            ['nil'] = {
+              formatting = {
+                command = { "nixpkgs-fmt" },
+              },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -244,6 +253,10 @@ return {
           end,
         },
       }
+    end,
+    -- For setting up LSP that is not included in Mason
+    opts = function (_, opts)
+      require('lspconfig').dartls.setup{}
     end,
   },
 }
