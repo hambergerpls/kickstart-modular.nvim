@@ -20,6 +20,14 @@ return {
 
       -- Prefer git instead of curl in order to improve connectivity in some environments
       require('nvim-treesitter.install').prefer_git = true
+
+      vim.filetype.add({
+        extension = {
+          mdx = "markdown.mdx",
+        }
+      })
+      vim.treesitter.language.register("markdown", "markdown.mdx")
+
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup(opts)
 
