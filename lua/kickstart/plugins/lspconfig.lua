@@ -173,6 +173,12 @@ return {
             client.server_capabilities.documentFormattingProvider = false
           end,
         },
+        cssmodules_ls = {
+          on_attach = function (client)
+            -- avoid accepting `definitionProvider` responses from this LSP
+            client.server_capabilities.definitionProvider = false
+          end,
+        },
         biome = {
           cmd = { "biome", "lsp-proxy" },
         },
