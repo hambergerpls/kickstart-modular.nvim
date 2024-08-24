@@ -199,9 +199,6 @@ return {
             client.server_capabilities.definitionProvider = false
           end,
         },
-        biome = {
-          cmd = { "biome", "lsp-proxy" },
-        },
         nil_ls = {
           autostart = true,
           settings = {
@@ -262,7 +259,21 @@ return {
     end,
     -- For setting up LSP that is not included in Mason
     opts = function (_, opts)
-      require('lspconfig').dartls.setup{}
+      local servers = {
+        biome = {
+          cmd = { "biome", "lsp-proxy" },
+        },
+        pylsp = {
+          cmd = { "pylsp" },
+        },
+        csharp_ls = {
+          cmd = { "csharp-ls" },
+        },
+        dartls = {}
+      }
+      for server_name, server in pairs(servers) do 
+        require('lspconfig')[server_name].setup(server)
+      end
     end,
   },
 }
