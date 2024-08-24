@@ -41,7 +41,17 @@ return {
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         typescript = { "biome" },
+        javascript = { "biome" },
+        javascriptreact = { "biome" },
+        json = { "biome" },
+        jsonc = { "biome" },
+        typescript = { "biome" },
+        typescriptreact = { "biome" },
+        astro = { "biome" },
+        svelte = { "biome" },
+        vue = { "biome" },
         nix = { "nixpkgs-fmt" },
+        cs = { "csharpier" }
       },
     },
   },
