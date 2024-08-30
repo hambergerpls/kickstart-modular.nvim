@@ -3,12 +3,13 @@
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
-  version = '*',
+  version = 'v3.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
     'MunifTanjim/nui.nvim',
   },
+  lazy = false,
   cmd = 'Neotree',
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
@@ -18,7 +19,6 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
-          ['Y'] = 'copy_path',
         },
       },
     },
