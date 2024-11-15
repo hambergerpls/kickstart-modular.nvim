@@ -210,7 +210,7 @@ return {
           },
         },
         lua_ls = {
-          -- cmd = {...},
+          cmd = {vim.fn.expand("~/.nix-profile/bin/lua-language-server")},
           -- filetypes = { ...},
           -- capabilities = {},
           settings = {
@@ -223,6 +223,14 @@ return {
             },
           },
         },
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            }
+          }
+        }
       }
 
       -- Ensure the servers and tools above are installed
@@ -263,8 +271,20 @@ return {
         biome = {
           cmd = { "biome", "lsp-proxy" },
         },
-        pylsp = {
-          cmd = { "pylsp" },
+        ruff = {
+          trace = 'messages',
+          init_options = {
+            settings = {
+              logLevel = 'debug',
+            }
+          },
+          on_attach = function(client)
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
+        pyright = {},
+        yamlls = {
+          cmd = { "yaml-language-server", "--stdio" },
         },
         csharp_ls = {
           cmd = { "csharp-ls" },

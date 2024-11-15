@@ -27,7 +27,7 @@ return {
         ['Y'] = 'copy_path',
       },
     },
-    command = {
+    commands = {
       copy_path = function(state)
         -- NeoTree is based on [NuiTree](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree)
         -- The node is based on [NuiNode](https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/tree#nuitreenode)
