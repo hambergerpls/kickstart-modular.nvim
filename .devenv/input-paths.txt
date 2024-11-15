@@ -1,3 +1,0 @@
-/home/hambergerpls/.config/nvim/devenv.lock
-/home/hambergerpls/.config/nvim/devenv.nix
-/home/hambergerpls/.config/nvim/devenv.yaml
