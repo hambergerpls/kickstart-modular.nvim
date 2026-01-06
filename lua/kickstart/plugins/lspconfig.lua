@@ -209,21 +209,61 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
+        gopls = {},
+        pyright = {
+          settings = {
+            pyright = {
+              disableOrganizeImports = true, -- Using Ruff
+              deprecateTypingAliases = true,
+            },
+            python = {
+              analysis = {
+                diagnosticMode = 'workspace',
+                typeCheckingMode = 'strict',
+              },
+            },
+          },
+        },
+        ruff = {
+          trace = 'messages',
+          init_options = {
+            settings = {
+              logLevel = 'debug',
+            },
+          },
+          on_attach = function(client)
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
-
+        -- But for many setups, the LSP (`tsserver`) will work just fine
+        ts_ls = {
+          on_attach = function(client)
+            -- this is important, otherwise tsserver will format ts/js
+            -- files which we *really* don't want.
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        },
+        svelte = {},
+        astro = {},
+        biome = {},
+        nil_ls = {
+          autostart = true,
+          settings = {
+            ['nil'] = {
+              formatting = {
+                command = { 'nixpkgs-fmt' },
+              },
+            },
+          },
+        },
         lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
+          -- filetypes = { ...},
           -- capabilities = {},
           settings = {
             Lua = {
@@ -232,6 +272,14 @@ return {
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+            },
+          },
+        },
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
             },
           },
         },
@@ -266,10 +314,25 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config[server_name] = server
           end,
         },
       }
+    end,
+    -- For setting up LSP that is not included in Mason
+    opts = function(_, opts)
+      local servers = {
+        yamlls = {
+          cmd = { 'yaml-language-server', '--stdio' },
+        },
+        csharp_ls = {
+          cmd = { 'csharp-ls' },
+        },
+        dartls = {},
+      }
+      for server_name, server in pairs(servers) do
+        vim.lsp.config[server_name] = server
+      end
     end,
   },
 }
